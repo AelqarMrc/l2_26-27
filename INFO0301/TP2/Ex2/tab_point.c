@@ -21,6 +21,12 @@ indices distMinMax(Tab_point t, int taille){
     return ind;
 }
 
+void echanger(int *a, int *b){
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
 void triDist(Tab_point *t, int taille){
-    printf("zbib");
+    
 }
