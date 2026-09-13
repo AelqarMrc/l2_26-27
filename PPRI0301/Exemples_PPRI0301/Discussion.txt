@@ -1,0 +1,4 @@
+Coucou, tu va bien ?
+Oui et toi ?
+Oui oui ça va ... On fait un peu de Python ?
+Oui, trop cool.
