@@ -1,0 +1,9 @@
+contenu apres remplissage : 8 17 5 30 -3 5 8 4 0 10 x 
+	 => taille (2 fois) : 10 10
+contenu apres taille : 8 17 5 30 -3 5 8 4 0 10 x 
+on va au debut et on supprime : x 17 5 30 -3 5 8 4 0 10 
+	 => taille : 9
+on avance 2 fois, on en supprime 2 et on en ajoute 1 : 17 5 1 x 5 8 4 0 10 
+	 => taille : 8
+contenu apres vidage : x 
+	 => taille : 0

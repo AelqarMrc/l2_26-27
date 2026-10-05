@@ -1,0 +1,102 @@
+/* Ch Jaillet
+ * projet : TDA sequentiels
+ * fichier : File_test.c
+ *******************
+ */
+
+/* choisissez l'implem des files : 
+ *		0 pour implem TabC
+ *		1 pour implem Ch
+ */
+#define VERSION 0
+
+#include "Element.h"
+#include "File_.h"
+
+#if VERSION == 1
+	#include "File_ch.h"
+#else
+	#include "File_tabC.h"
+#endif
+
+#include <stdio.h>
+#include <stdlib.h> // pour EXIT_SUCCESS
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//////////////////////////////
+// fonctions calculables
+// A. leurs declarations (definitions a la fin)
+void viderF(File_ *);
+void transfererFF(File_ *, File_ *);
+void inverserF(File_ *);
+
+// on ne modifie pas officiellement mais on bouge les Element 
+//	=> (si implem. chainage) les pointeurs ont change de valeur 
+//  => File_ * en parametre
+int  tailleF(File_ *);	
+void afficherF(File_ *);
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//////////////////////////////
+// B. le programme de test 
+// definitions des fonctions calculables a la fin
+int main(void){
+ 	File_ f; 
+	Element e;
+	
+	creerFile(&f);
+	for(int i=0 ; i<10 ; i++){
+	 	saisie(&e);
+		enfiler(&f, e);
+	}
+
+	printf("contenu apres remplissage : ");
+		afficherF(&f);	// le contenu de la structure change : on passe le ptr 
+
+	printf("\n\t => taille (2fois) : %d %d\n", tailleF(&f), tailleF(&f));
+	printf("contenu avant inversion : "); 	afficherF(&f);
+	inverserF(&f);
+	printf("\ncontenu apres inversion : "); 	afficherF(&f);
+	printf("\n\t => pas sur que ca marche...\n");
+	
+	viderF(&f);
+	printf("contenu apres vidage : "); 		afficherF(&f);
+	printf("\n\t => taille : %d\n", tailleF(&f));
+
+	libererFile(&f);
+	return EXIT_SUCCESS;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//////////////////////////////
+// fonctions calculables
+// C. leurs definitions (declarations a la fin)
+
+void viderF(File_* pf){
+ 	// ...
+}
+
+void transfererFF(File_* pf1, File_* pf2){
+ 	// ...
+}
+
+int tailleF(File_* pf){
+ 	int nb = 0;
+	// ...
+	return nb;
+}
+
+void afficherF(File_* pf){
+ 	// ...
+}
+
+void inverserF(File_* pf){
+ 	// ???? sans Pile pas sur que ca marche...
+	File_ f2;	creerFile(&f2);
+	transfererFF(pf, &f2);
+	transfererFF(&f2, pf);
+	libererFile(&f2);
+}
