@@ -10,7 +10,7 @@ type MyTextProps = {
 };
 
 // 2. Renseignement des paramètres dans la fonction fléchée typée
-export const TextMain = ({ children, style, label, unit }: MyTextProps) => {
+export const MyText = ({ children, style, label, unit }: MyTextProps) => {
   return (
     // Le tableau de styles permet d'appliquer le style par défaut, puis de l'écraser si un paramètre 'style' est fourni
     <Text style={[styles.defaultText, style]}>

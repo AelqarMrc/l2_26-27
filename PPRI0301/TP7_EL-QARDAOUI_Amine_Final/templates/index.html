@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Penguin Explorer - Flask</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Palmer Penguins</h1>
+        
+        <form method="POST" style="margin-bottom: 20px;">
+            <label for="species">Filtrer par espèce :</label>
+            <select name="species" id="species" onchange="this.form.submit()">
+                {% for sp in species_list %}
+                    <option value="{{ sp }}" {% if sp == selected_species %}selected{% endif %}>{{ sp }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <h2>Visualisation de la Masse</h2>
+        <img src="data:image/png;base64,{{ plot }}" alt="Histogramme">
+
+        <h2>Statistiques Descriptives</h2>
+        {{ stats | safe }}
+
+        <h2>Aperçu des Données (50 premières lignes)</h2>
+        {{ table | safe }}
+    </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+PARTIE 1 : 
+
+#Q1.1
+    s = Salle("D101", 30) => Rien afficher instanciation de la classe
+    s.entrer(25) => fais ajoute 25 occupants et maj la capacite  
+    s.entrer(10) => Renvoie un message d'erreur car dépasse la capacite
+    print(s.get_occupants()) => affiche 25
+    s.sortir(40) => sors tout les occupants sans dépasser 0 
+    print(s.get_occupants()) => affiche donc 0
+
+    On aurait donc : 
+    Message d'erreur
+    25
+    0
+
+    trace réelle :
+    PS C:\Users\Amina\OneDrive\Bureau\Amine\Cours\PPRI0301\TP5-EL-QARDAOUI_AMINE_POO> py .\UnivSim.py                                           
+    Le nombre d'entrée dépasse la capacité de la salle !
+    25
+    0
+    PS : Je pense je dois me lancer dans le pari sportif !
+
+Q1.2
+    "UnboundLocalError: cannot access local variable" -> Enfaite python lors de l'égalité essaye d'évaluer
+    __occupants or __occupantsest vu comme une variable local pour python elle n'a donc pas de valeur et ne peut
+    être incrémené dans ce cas là.
+    On distingue une variable local par le fait qu'elle ne soit accessible en mémoire que dans la méthode tandis
+    qu'un attribut d'instance lui sa donnée persiste en mémoire tant que l'objet en lui-même existe.
+
+Q1.3
+    Enfaite les "__" servent à simplement masquer le vrai nom de l'attribut qui est -Salle__occupants au lieu de
+    __occupants d'où le "private". c'est le principe de l'encapsulation qui est une convention de sécurité de 
+    python et non pas une règle stricte comme en JAVA par exemple, pour éviter les erreurs du développeur mais 
+    part dans l'optique que le développeur sait ce qu'il fait quand il touche à son attribut et lui laisse donc
+    la main mise dessus.
+
+Partie 2 – Encapsulation : héritée et spécialisée ->
+
+Q2.1
+    est_rentable effectue un calcul logique et n'a pas besoin de lire un attribut de la classe ou modifié son état
+    en utilisant self ou cls pour l'état de la classe.
+    On va choisir une méthode d'instance lorsqu'on va utiliser self pour lire ou modifier un attribut de l'objet
+    sinon une méthode de classe pour manipuler la classe elle-même ou dans le dernier cas comme vu ci-dessus 
+    on utilisera une méthode statique.
+
+Q2.2   
+    - Pour Salle.est_rentable(15) on aura false car la méthode est t'appeler depuis la classe donc vu que 15>20 
+    ça retourne false.
+    
+    - Pour Salle.from_texte("D103;60") cela crée et retourne une nouvelle instance de Salle avec nom = "D103",
+    capacite = 60 et un numéro d'instance incrémenté.
+    
+    - s.est_rentable(15) sur une instance s retournera false car une méthode statique peut être appelé
+    depuis une instance. Python ignore simplement l'instance s et lui passe uniquement l'argument 15.
+
+Trace de sorties Partie 2 : 
+
+Salle 1 -> Nom : Salle_2_R-18, N° : 1, Capacité : 28
+Salle 2 -> Nom : E_2_R-05, N° : 2, Capacité : 180
+
+Occupants Salle_2_R-18 : 20
+Avertissement : Capacité maximale dépassée pour Salle_2_R-18 (32/28). Entrée refusée.
+Occupants Salle_2_R-18 après tentative : 20
+Occupants Salle_2_R-18 après sortie : 12
+
+Occupants E_2_R-05 : 150
+Occupants E_2_R-05 après sortie massive : 0
+
+Partie 3 – Héritage et polymorphisme : 
+Trace de sortie console : 
+--- Début de la simulation de rentrée (30 personnes par salle) ---
+
+Tentative d'entrée dans : Salle_2_R-18
+--------------------------------------------------
+Tentative d'entrée dans : Salle_1_R-02
+Avertissement : Capacité maximale dépassée pour Salle_1_R-02 (30/25). Entrée refusée.
+--------------------------------------------------
+Tentative d'entrée dans : E_2_R-05
+--------------------------------------------------
+Tentative d'entrée dans : Labo_Info_01
+Information : Seules 24 personne(s) sur 30 peuvent entrer dans Labo_Info_01 (limite de postes).
+--------------------------------------------------
+Tentative d'entrée dans : Terrain_Synthetique
+30 personnes sont entrées sur le court Terrain_Synthetique (30 actuellement).
+--------------------------------------------------
+
+Q3.1
+    Le mécanisme à l'oeuvre est le polymorphisme qui lors de l'appel lieu.entrer(30),
+    Python détermine dynamiquement à l'exécution quelle implémentation de la méthode 
+    entrer exécuter en fonction du type réel de l'objet référencé par la variable lieu.
+    Dans le cas ou "entrer" n'est pas réecris les objets Amphi et SalleTP exécuteraient 
+    directement la méthode entrer héritée de Salle. L'Amphi n'appliquerait pas la règle 
+    des 90 % et la SalleTP permettrait à 30 personnes d'entrer même s'il n'y a que 24 
+    postes disponibles.
+
+Q3.2 
+    CourtDeSport ne hérite pas de la classe Salle, mais Python accepte de l'insérer dans
+    la liste campus et d'exécuter lieu.entrer(30) sans lever d'erreur d'exécution.
+    Le langage ne vérifie pas le type explicite de l'objet ni sa hiérarchie d'héritage,
+    mais uniquement la présence des méthodes ou attributs appelés au moment où ils sont 
+    sollicités. Comme CourtDeSport possède une méthode entrer(self, n), l'appel réussit.
+    Si on insère un objet dépourvu de méthode entrer (par exemple un objet Bureau), Python 
+    lèvera une exception AttributeError au moment de la boucle.
+
+    Inconvénient d'un appel sans super():
+    - Le nom de la classe mère est codé en dur. Si la classe mère change de nom ou de structure, 
+    il faut modifier l'appel partout dans les sous-classes.
+    - Dans une hiérarchie en diamant (ex. D hérite de B et C, qui héritent de A), appeler 
+    explicitement A.__init__(self) dans B et C provoque l'exécution double du constructeur de A.
+    La fonction super() résout ce problème en suivant l'ordre de résolution des 
+    méthodes (MRO - Method Resolution Order) et garantit que chaque classe parent n'est initialisée 
+    qu'une seule fois.
